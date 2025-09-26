@@ -1,11 +1,15 @@
 import secrets
 
 print("Cadastro de usuário")
-
+print("Por favor digite o seu nome")
 nome = input("Digite seu nome: ")
+print("Por faor digite o seu CPF (999.999.999-99")
 cpf = input("Digite seu cpf: ")
+print("Digite o seu email (usario@gmail.com)")
 email = input("Digite seu email: ")
+print("Por favor digite seu endereço")
 endereco = input("Digite seu endereco: ")
+print("Digite seu telefone (41)99999-9999")
 telefone = input("Digite seu telefone: ")
 
 nome_ot = nome.replace('_',' ').strip()
