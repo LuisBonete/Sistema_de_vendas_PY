@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Avaliação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5ee;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #4facfe;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .rating-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            font-size: 2.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 0 5px;
+        }
+
+        .stars label:hover,
+        .stars label:hover ~ label,
+        .stars input:checked ~ label {
+            color: #ffc107;
+        }
+
+        .rating-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .rating-labels span {
+            text-align: center;
+            flex: 1;
+        }
+
+        .btn-submit {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(79, 172, 254, 0.6);
+        }
+
+        .btn-submit:active {
+            transform: translateY(1px);
+        }
+
+        .thank-you {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+
+        .thank-you i {
+            font-size: 4rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .thank-you h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .review-summary {
+            margin-top: 30px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .review-summary h3 {
+            color: #444;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .review-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                gap: 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+            
+            .stars label {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Avalie Nossos Serviços</h1>
+            <p>Sua opinião é muito importante para continuarmos melhorando</p>
+        </header>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Formulário de Avaliação</h2>
+                <p>Por favor, avalie sua experiência conosco</p>
+            </div>
+            
+            <div class="card-body">
+                <form id="evaluationForm">
+                    <div class="form-group">
+                        <label for="name">Seu Nome</label>
+                        <input type="text" id="name" name="name" placeholder="Digite seu nome completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Seu Email</label>
+                        <input type="email" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Avaliação Geral</label>
+                        <div class="rating-container">
+                            <div class="stars">
+                                <input type="radio" id="star5" name="rating" value="5">
+                                <label for="star5"><i class="fas fa-star"></i></label>
+                                
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4"><i class="fas fa-star"></i></label>
+                                
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3"><i class="fas fa-star"></i></label>
+                                
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2"><i class="fas fa-star"></i></label>
+                                
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1"><i class="fas fa-star"></i></label>
+                            </div>
+                            <div class="rating-labels">
+                                <span>Péssimo</span>
+                                <span>Ruim</span>
+                                <span>Regular</span>
+                                <span>Bom</span>
+                                <span>Excelente</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comments">Comentários Adicionais</label>
+                        <textarea id="comments" name="comments" placeholder="Conte-nos mais sobre sua experiência... O que mais gostou? O que podemos melhorar?"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Enviar Avaliação</button>
+                </form>
+                
+                <div class="thank-you" id="thankYou">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Obrigado pela sua Avaliação!</h2>
+                    <p>Sua opinião é muito valiosa para nós. Vamos analisar seus comentários para continuar melhorando.</p>
+                    
+                    <div class="review-summary">
+                        <h3>Resumo da sua Avaliação</h3>
+                        <div class="review-item">
+                            <span>Nome:</span>
+                            <span id="summary-name">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span>Email:</span>
+                            <span id="summary-email">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span>Avaliação:</span>
+                            <span id="summary-rating">-</span>
+                        </div>
+                        <div class="review-item">
+                            <span>Comentários:</span>
+                            <span id="summary-comments">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('evaluationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coletar dados do formulário
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const rating = document.querySelector('input[name="rating"]:checked') ? 
+                          document.querySelector('input[name="rating"]:checked').value : 'Não avaliado';
+            const comments = document.getElementById('comments').value;
+            
+            // Atualizar resumo
+            document.getElementById('summary-name').textContent = name;
+            document.getElementById('summary-email').textContent = email;
+            document.getElementById('summary-rating').textContent = `${rating} estrela(s)`;
+            document.getElementById('summary-comments').textContent = comments || 'Nenhum comentário';
+            
+            // Mostrar mensagem de agradecimento
+            document.getElementById('evaluationForm').style.display = 'none';
+            document.getElementById('thankYou').style.display = 'block';
+            
+            // Aqui você normalmente enviaria os dados para o servidor
+            console.log({
+                name: name,
+                email: email,
+                rating: rating,
+                comments: comments
+            });
+        });
+        
+        // Adicionar interatividade às estrelas
+        const stars = document.querySelectorAll('.stars input');
+        stars.forEach(star => {
+            star.addEventListener('change', function() {
+                const ratingValue = this.value;
+                // Você pode usar este valor para qualquer lógica adicional
+                console.log(`Avaliação selecionada: ${ratingValue} estrelas`);
+            });
+        });
+    </script>
+</body>
+</html>
